@@ -9,7 +9,6 @@ interface PrivateProps {
 export function Private({ children }: PrivateProps) {
     const [loading, setLoading] = useState(true)
     const [signed, setSigned] = useState(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         const auth = getAuth()
@@ -20,8 +19,6 @@ export function Private({ children }: PrivateProps) {
                 id: user.uid,
                 email: user.email
             }
-
-            console.log(user)
 
             localStorage.setItem('@linktree-user', JSON.stringify(userData))
 
