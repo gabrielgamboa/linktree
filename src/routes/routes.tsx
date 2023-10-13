@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     element: <Private> <Admin /> </Private>,
   },
   {
-    path: '/networks',
+    path: '/admin/social',
     element: <Networks />,
   },
   {

@@ -1,6 +1,7 @@
-import { getAuth } from "firebase/auth"
+import {  onAuthStateChanged } from "firebase/auth"
 import { ReactNode, useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
+import { auth } from "../../services/firebaseConnection"
 
 interface PrivateProps {
     children: ReactNode
@@ -11,26 +12,31 @@ export function Private({ children }: PrivateProps) {
     const [signed, setSigned] = useState(false)
 
     useEffect(() => {
-        const auth = getAuth()
-        const user = auth.currentUser
-
-        if (user) {
-            const userData  = {
-                id: user.uid,
-                email: user.email
+        const unsub = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userData  = {
+                    id: user.uid,
+                    email: user.email
+                }
+    
+                localStorage.setItem('@linktree-user', JSON.stringify(userData))
+    
+                setLoading(false)
+                setSigned(true)
+                
+            }  
+            else {
+                console.log('no user logged')
+                setLoading(false)
+                setSigned(false)
             }
+        })
 
-            localStorage.setItem('@linktree-user', JSON.stringify(userData))
+    return () => {
+        unsub()
+    }
 
-            setLoading(false)
-            setSigned(true)
-            
-        }  
-        else {
-            console.log('no user logged')
-            setLoading(false)
-            setSigned(false)
-        }
+      
     }, [])
 
     if (loading) {
