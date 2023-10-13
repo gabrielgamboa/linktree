@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Admin } from "./pages/Admin";
-import { Networks } from "./pages/Networks";
-import { Login } from "./pages/Login";
+import { Home } from "../pages/Home";
+import { Admin } from "../pages/Admin";
+import { Networks } from "../pages/Networks";
+import { Login } from "../pages/Login";
+import { Private } from "./components/Private";
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <Admin />,
+    element: <Private> <Admin /> </Private>,
   },
   {
     path: '/networks',
