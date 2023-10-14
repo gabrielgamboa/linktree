@@ -39,6 +39,13 @@ export function Admin() {
             <input type="color" value={textColor} onChange={(e => setTextColor(e.target.value))}/>
           </div>
         </section>
+
+        <div className="flex flex-col justify-center items-center border py-4 border-gray-500 rounded ">
+          <label className="text-white font-medium">Veja como está ficando: </label>
+          <section className="w-11/12 max-w-lg text-center rounded mt-8 py-2" style={{ background: backgroundLinkColor}}>
+            <p className="font-medium" style={{color: textColor}}>{nameUrl}</p>
+          </section>
+        </div>
       </form>
     </div>
   )
