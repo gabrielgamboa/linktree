@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { FiLink2, FiTrash } from 'react-icons/fi'
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../services/firebaseConnection";
 
 export function Admin() {
   const [nameUrl, setNameUrl] = useState('')
@@ -9,11 +11,34 @@ export function Admin() {
   const [backgroundLinkColor, setBackgroundLinkColor] = useState('#f1f1f1')
   const [textColor, setTextColor] = useState('#121212')
 
+  function handleRegisterLink(e: FormEvent) {
+    e.preventDefault()
+
+    if (!url || !nameUrl) {
+      alert('Preencha todos os campos')
+      return
+    }
+
+    addDoc(collection(db, 'links'), {
+      name: nameUrl,
+      link: url,
+      bg: backgroundLinkColor,
+      color: textColor,
+      created: new Date(),
+    })
+    .then(() => {
+      console.log('Cadastrado com sucesso')
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+  }
+
   return (
     <div className="flex flex-col items-center min-h-screen px-4">
       <Header/>
       
-      <form className="mt-8 flex flex-col w-full max-w-xl mb-9 ">
+      <form onSubmit={handleRegisterLink} className="mt-8 flex flex-col w-full max-w-xl mb-9 ">
         <label className="text-white my-2 font-medium" >Nome do link</label>
         <Input
           placeholder="Digite o nome do link..."
